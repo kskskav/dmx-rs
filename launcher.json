@@ -1,0 +1,56 @@
+[
+  {
+    "key": "hx",
+    "desc": "Helix Text Editor",
+    "exec": [ "x-terminal-emulator", "-e", "hx" ]
+  },
+  {
+    "key": "ssh",
+    "desc": "ssh into myserver.net",
+    "exec": [ "x-terminal-emulator", "-e", "ssh", "me@myserver.net" ]
+  },
+  
+  {
+    "key": "edit",
+    "desc": "Other Text Editors",
+    "items": [
+      {
+        "key": "vim",
+        "desc": "vim needs no description",
+        "exec": [ "x-terminal-emulator", "-e", "vim" ]
+      },
+      {
+        "key": "nano",
+        "desc": "When Your vim Muscle Memory Fails You",
+        "exec": [ "x-terminal-emulator", "-e", "nano" ]
+      },
+      {
+        "key": "geany",
+        "desc": "Geany Text Editor",
+        "exec": [ "/usr/bin/geany" ]
+      }
+    ]
+  },
+  
+  {
+    "key": "browser",
+    "desc": "Web Browsers",
+    "items": [
+      {
+        "key": "ff",
+        "desc": "Firefox",
+        "exec": [ "/usr/bin/firefox" ]
+      },
+      {
+         "key": "chrome",
+         "desc": "Chromium",
+         "exec": [ "/usr/bin/chromium" ]
+      },
+      {
+        "key": "dillo",
+        "desc": "Dillo",
+        "exec": [ "/usr/bin/dillo" ]
+      }
+    ]
+  }
+]
