@@ -2,8 +2,13 @@
 name = "dm_x"
 description = "A library for using dmenu as an option picker"
 version = "0.1.0"
+repository = "https://github.com/d2718/dmx-rs"
+homepage = "https://github.com/d2718/dmx-rs"
+license = "MIT"
 edition = "2021"
 
+keywords = ["dmenu", "ui", "menu"]
+categories = ["gui"]
 
 [dependencies]
 
