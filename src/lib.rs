@@ -16,6 +16,10 @@ library offers three things when it comes to using this tool:
     mnemonic along with more descriptive option text (both of which are,
     again, distinct from the function of the option in question).
 
+
+Obviously, you are going to need `dmenu` installed (and a system where it
+can run).
+
 ```
 # use dm_x::Dmx;
 static REGRESSION_TYPES: &[(&str, &str)] = &[
@@ -271,30 +275,4 @@ impl Dmx {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    const TUPLE_CHOICES: &[(&str, &str)] = &[
-        ("frogs", "Blue Winged Frogs"),
-        ("toads", "Orange Scratchy Toads"),
-        ("milk", "A Delicious Milkshake"),
-        ("gob", "The Goblins and their King"),
-    ];
-
-    const STR_CHOICES: &[&str] = &[
-        "In the Court of the Crimson King",
-        "Frog on Down to Froggington",
-        "Down on the Upside",
-        "Aries is SO MISERABLE (she's not joking...)",
-    ];
-
-    #[test]
-    fn builtins() {
-        let cfg = Dmx::default();
-        let r = cfg.select("tuples", TUPLE_CHOICES).unwrap();
-        println!("(tuple) Selected: {:?}", &r);
-
-        let r = cfg.select("&strz", STR_CHOICES).unwrap();
-        println!("(&str) Selected: {:?}", &r);
-    }
-}
+mod tests;
