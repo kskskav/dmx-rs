@@ -94,7 +94,9 @@ select_fg = "#88cccc"
 
 */
 use std::io::{Read, Write};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
+#[cfg(feature = "config")]
+use std::path::Path;
 use std::process::{Command, Stdio};
 
 #[cfg(feature = "config")]

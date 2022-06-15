@@ -1,9 +1,10 @@
 [package]
 name = "dm_x"
 description = "A library for using dmenu as an option picker"
-version = "0.2.0"
+version = "0.2.1"
 repository = "https://github.com/d2718/dmx-rs"
 homepage = "https://github.com/d2718/dmx-rs"
+documentation = "https://docs.rs/dm_x"
 license = "MIT"
 edition = "2021"
 
