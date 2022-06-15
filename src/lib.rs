@@ -43,10 +43,62 @@ match dmx.select("method:", REGRESSION_TYPES).unwrap() {
 }
 
 ```
+
+# Features
+
+`dm_x` has one optional feature, `config`, which provides the ability to
+deserialize a `Dmx` configuration from some .toml. This gets
+[`serde`](https://serde.rs) (and [`toml`](https://crates.io/crates/toml))
+involved, which is kind of a large dependency for an otherwise
+dependency-free (save the `dmenu` binary) crate (hence the feature gate).
+
+```
+#[cfg(feature = "config")]
+{
+    const CHOICES: &[(&str, &str)] = &[
+        ("frog", "a Fire-Breathing, Blue-Winged Frog"),
+        ("toad", "a Acid-Blooded, Orange-Eyed Toad"),
+        ("cat", "a Psychic Cat (Can Kill You With Its Mind)"),
+        ("rat", "a Venom-Fanged Skaven Warlock"),
+        ("dog", "Just a Regular Border Collie")
+    ];
+    
+    let dmx = Dmx::from_file("test/dmx_conf.toml").unwrap();
+    
+    match dmx.select("->", CHOICES).unwrap() {
+        None => {
+            println!("You have chosen to adventure alone.");
+        },
+        Some(n) => {
+            println!("You will be accompanied by {}", CHOICES[n].1);
+        }
+    }
+}
+```
+
+Examination of the included "test/dmx_conf.toml" file should make the
+required format fairly obvious; all values are optional (defaulting to
+the values provided by `Dmx::default()`) and should be just as `dmenu`
+would expect them as arguments.
+
+File "test/dmx_conf.toml":
+
+```toml
+dmenu     = "/usr/bin/dmenu"
+font      = "Terminus-12"
+normal_bg = "#88cccc"
+normal_fg = "#422"
+select_bg = "#422"
+select_fg = "#88cccc"
+```
+
 */
 use std::io::{Read, Write};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
+
+#[cfg(feature = "config")]
+mod config;
 
 const NEWLINE: u8 = b'\n';
 
@@ -272,6 +324,59 @@ impl Dmx {
 
         Ok(None)
     }
+    
+    /**
+    Return a `Dmx` configured by a slice of bytes.
+    */
+    #[cfg(feature = "config")]
+    pub fn from_bytes(bytes: &[u8]) -> Result<Dmx, String> {
+        let cfgf = config::ConfigFile::from(&bytes)?;
+        
+        let mut dmx = Dmx::default();
+        if let Some(dmenu_path) = cfgf.dmenu {
+            dmx.dmenu = dmenu_path;
+        }
+        if let Some(font) = cfgf.font {
+            dmx.font = font;
+        }
+        if let Some(nbg) = cfgf.normal_bg {
+            dmx.normal_bg = nbg;
+        }
+        if let Some(nfg) = cfgf.normal_fg {
+            dmx.normal_fg = nfg;
+        }
+        if let Some(sbg) = cfgf.select_bg {
+            dmx.select_bg = sbg;
+        }
+        if let Some(sfg) = cfgf.select_fg {
+            dmx.select_fg = sfg;
+        }
+        
+        Ok(dmx)
+    }
+    
+    /**
+    Return a `Dmx` configured based on a configuration file.
+    */
+    #[cfg(feature = "config")]
+    pub fn from_file<P>(p: P) -> Result<Dmx, String>
+    where
+        P: AsRef<Path>,
+    {
+        let p = p.as_ref();
+        let bytes = std::fs::read(p)
+            .map_err(|e| format!("Error reading from \"{}\": {}", p.display(), &e))?;
+        Dmx::from_bytes(&bytes)
+    }
+    
+    /**
+    Return a `Dmx` based on a byte slice containing some TOML.
+    */
+    #[cfg(feature = "config")]
+    pub fn from_slice(b: &[u8]) -> Result<Dmx, String> {
+        Dmx::from_bytes(b)
+    }
+    
 }
 
 #[cfg(test)]

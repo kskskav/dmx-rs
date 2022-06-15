@@ -1,0 +1,6 @@
+dmenu     = "/usr/bin/dmenu"
+font      = "Terminus-12"
+normal_bg = "#88cccc"
+normal_fg = "#422"
+select_bg = "#422"
+select_fg = "#88cccc"
