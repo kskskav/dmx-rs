@@ -1,7 +1,7 @@
 [package]
 name = "dm_x"
 description = "A library for using dmenu as an option picker"
-version = "0.2.1"
+version = "0.2.2"
 repository = "https://github.com/d2718/dmx-rs"
 homepage = "https://github.com/d2718/dmx-rs"
 documentation = "https://docs.rs/dm_x"

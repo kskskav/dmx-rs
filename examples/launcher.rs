@@ -359,7 +359,10 @@ fn main() {
     // In an actual program, these next two lines would probably be
     // accompanied by some configuration in order to customize the
     // appearance of `dmenu`.
+    #[cfg(not(feature = "config"))]
     let dmx = Dmx::default();
+    #[cfg(feature = "config")]
+    let dmx = Dmx::automagiconf();
     SEPARATOR.set(("/".to_owned(), 1)).unwrap();
 
     match recursive_select(&dmx, "", &items) {

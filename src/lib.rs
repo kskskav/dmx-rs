@@ -379,6 +379,44 @@ impl Dmx {
         Dmx::from_bytes(b)
     }
     
+    /**
+    Configure "automagically".
+    
+    That is, attempt to configure from (in this order):
+      * the file specified by the `$DMX_CONFIG` environment variable
+      * the file at `$XDG_CONFIG_HOME/dmx.toml`
+      * the file at `$HOME/.config/dmx.toml`
+      * `Dmx::default()` (this always works)
+    */
+    #[cfg(feature = "config")]
+    pub fn automagiconf() -> Dmx {
+        use std::env::var;
+        
+        if let Ok(path) = var("DMX_CONFIG") {
+            if let Ok(dmx) = Dmx::from_file(path) {
+                return dmx;
+            }
+        }
+        
+        if let Ok(config_path) = var("XDG_CONFIG_HOME") {
+            let mut config_file = PathBuf::from(config_path);
+            config_file.push("dmx.toml");
+            if let Ok(dmx) = Dmx::from_file(&config_file) {
+                return dmx;
+            }
+        }
+        
+        if let Ok(home_dir) = var("HOME") {
+            let mut config_file = PathBuf::from(home_dir);
+            config_file.push(".config");
+            config_file.push("dmx.toml");
+            if let Ok(dmx) = Dmx::from_file(&config_file) {
+                return dmx;
+            }
+        }
+        
+        Dmx::default()
+    }
 }
 
 #[cfg(test)]
