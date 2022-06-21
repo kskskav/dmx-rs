@@ -93,6 +93,9 @@ select_fg = "#88cccc"
 ```
 
 */
+
+#![feature(doc_cfg)]
+
 use std::io::{Read, Write};
 use std::path::PathBuf;
 #[cfg(feature = "config")]
@@ -330,6 +333,7 @@ impl Dmx {
     /**
     Return a `Dmx` configured by a slice of bytes.
     */
+    #[doc(cfg(feature = "config"))]
     #[cfg(feature = "config")]
     pub fn from_bytes(bytes: &[u8]) -> Result<Dmx, String> {
         let cfgf = config::ConfigFile::from(&bytes)?;
@@ -360,6 +364,7 @@ impl Dmx {
     /**
     Return a `Dmx` configured based on a configuration file.
     */
+    #[doc(cfg(feature = "config"))]
     #[cfg(feature = "config")]
     pub fn from_file<P>(p: P) -> Result<Dmx, String>
     where
@@ -374,6 +379,7 @@ impl Dmx {
     /**
     Return a `Dmx` based on a byte slice containing some TOML.
     */
+    #[doc(cfg(feature = "config"))]
     #[cfg(feature = "config")]
     pub fn from_slice(b: &[u8]) -> Result<Dmx, String> {
         Dmx::from_bytes(b)
@@ -388,6 +394,7 @@ impl Dmx {
       * the file at `$HOME/.config/dmx.toml`
       * `Dmx::default()` (this always works)
     */
+    #[doc(cfg(feature = "config"))]
     #[cfg(feature = "config")]
     pub fn automagiconf() -> Dmx {
         use std::env::var;
