@@ -249,7 +249,7 @@ impl Dmx {
         let mut c = Command::new(&self.dmenu);
         c.args([
             "-l",
-            &n_items.to_string(),
+            "10",
             "-p",
             prompt,
             "-fn",
