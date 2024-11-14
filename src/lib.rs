@@ -262,6 +262,8 @@ impl Dmx {
             &self.select_bg,
             "-sf",
             &self.select_fg,
+            "-bw",
+            "4",
         ])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
